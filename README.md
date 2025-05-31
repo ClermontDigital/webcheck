@@ -20,6 +20,17 @@ The sensor offers the following additional attributes:
 * last_status: Status of last update. Some possible values are "200 - OK" or "Connection error". More error values exist.
 * last_error_status: Status of last error, allows to easily see what the last issue was if it came back already.
 
+## Screenshots
+
+### Adding a Website
+![Adding a Website](images/screenshot1.png)
+
+### WebCheck Integration Page
+![WebCheck Integration Page](images/screenshot2.png)
+
+### Website State Information
+![Website State Information](images/screenshot3.png)
+
 ## Installation
 
 ### Home Assistant Community Store (HACS)
@@ -78,6 +89,41 @@ webcheck:
 ## Notifications
 
 Because the integration exposes normal sensors you can use Automations to get notified of issues. These type of automations are not specific for this integrations, so you can build automations as usual. 
+
+### Example Automation for Website Status Change Notifications
+
+This example automation will send a notification to your mobile device when a monitored website changes status (either goes down or comes back up):
+
+```yaml
+automation:
+  - alias: "Website Status Change Notification"
+    description: "Send notification when a website status changes"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.home_assistant_website
+    condition: []
+    action:
+      - service: notify.mobile_app_your_phone
+        data:
+          title: "Website Status Change"
+          message: >
+            Website: {{ trigger.to_state.attributes.url }} 
+            Status: {{ trigger.to_state.attributes.last_status }}
+            {% if trigger.to_state.state == 'on' %}
+            ⚠️ Website is DOWN
+            {% else %}
+            ✅ Website is UP
+            {% endif %}
+          data:
+            # Optional: Add additional data for rich notifications
+            clickAction: /lovelace/devices
+```
+
+You can customize this automation to fit your needs, such as:
+- Only notify when the website goes down (add a condition to check if `trigger.to_state.state == 'on'`)
+- Include more information from the entity attributes
+- Send notifications through different services (email, Telegram, etc.)
+- Trigger other actions like turning on a light or playing a sound
 
 Below are some links to related Home Assistant documentation.
 
