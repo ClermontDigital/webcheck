@@ -39,7 +39,7 @@ The sensor offers the following additional attributes:
 
 HACS is a 3rd party downloader for Home Assistant to easily install and update custom integrations made by the community. More information and installation instructions can be found on their site https://hacs.xyz/
 
-* Add this repository https://github.com/developersteve/webcheck to HACS as a "custom repository" with category "integration". This option can be found in the ⋮ menu
+* Add this repository https://github.com/ClermontDigital/webcheck to HACS as a "custom repository" with category "integration". This option can be found in the ⋮ menu
 * Install the integration from within HACS
 * Add the integration through the Home Assistant UI under "Configuration" -> "Integrations"
 * Restart Home Assistant

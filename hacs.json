@@ -1,5 +1,6 @@
 {
     "name": "WebCheck",
     "render_readme": true,
-    "homeassistant": "2022.8.0"
+    "homeassistant": "2022.8.0",
+    "hacs": "1.6.0"
 }

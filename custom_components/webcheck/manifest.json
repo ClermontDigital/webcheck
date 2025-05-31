@@ -6,9 +6,9 @@
     "@developersteve"
   ],
   "dependencies": [],
-  "documentation": "https://github.com/clermontdigital/webcheck",
+  "documentation": "https://github.com/ClermontDigital/webcheck",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/clermontdigital/webcheck/issues",
+  "issue_tracker": "https://github.com/ClermontDigital/webcheck/issues",
   "requirements": [],
   "version": "1.0.0",
   "config_flow": true
