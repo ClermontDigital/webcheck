@@ -1,9 +1,11 @@
 # WebCheck
 
+![webcheck logo](images/webcheck.png)
+
 Custom integration that checks if a website is reachable or not.
 
-A website is considered OK when an HTTP request returned with a response code < 500.
-Or the other way around it is considered a problem if the HTTP request failed or returned a response code >= 500.
+A website is considered OK only when an HTTP request returns with a response code in the 200-299 range.
+It is considered a problem if the HTTP request failed, returned a 404 (not found), or any other error code (including 3xx redirects, 4xx client errors, and 5xx server errors).
 
 This integration is a fork of [Websitechecker](https://github.com/mvdwetering/websitechecker) with enhanced functionality to add websites as devices through the UI.
 
@@ -92,31 +94,30 @@ Because the integration exposes normal sensors you can use Automations to get no
 
 ### Example Automation for Website Status Change Notifications
 
-This example automation will send a notification to your mobile device when a monitored website changes status (either goes down or comes back up):
+This example automation will send a notification to your mobile device when a monitored website changes status (either goes down or comes back up). Add this to your `automations.yaml` file or to the `automation:` section of your `configuration.yaml`:
 
 ```yaml
-automation:
-  - alias: "Website Status Change Notification"
-    description: "Send notification when a website status changes"
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.home_assistant_website
-    condition: []
-    action:
-      - service: notify.mobile_app_your_phone
-        data:
-          title: "Website Status Change"
-          message: >
-            Website: {{ trigger.to_state.attributes.url }} 
-            Status: {{ trigger.to_state.attributes.last_status }}
-            {% if trigger.to_state.state == 'on' %}
-            ⚠️ Website is DOWN
-            {% else %}
-            ✅ Website is UP
-            {% endif %}
-          data:
-            # Optional: Add additional data for rich notifications
-            clickAction: /lovelace/devices
+# Add this to automations.yaml or to the automation: section of configuration.yaml
+alias: "Website Status Change Notification"
+description: "Send notification when a website status changes"
+trigger:
+  - platform: state
+    entity_id: binary_sensor.home_assistant_website
+action:
+  - service: notify.mobile_app_your_phone
+    data:
+      title: "Website Status Change"
+      message: >
+        Website: {{ trigger.to_state.attributes.url }}
+        Status: {{ trigger.to_state.attributes.last_status }}
+        {% if trigger.to_state.state == 'on' %}
+        ⚠️ Website is DOWN
+        {% else %}
+        ✅ Website is UP
+        {% endif %}
+      data:
+        # Optional: Add additional data for rich notifications
+        clickAction: /lovelace/devices
 ```
 
 You can customize this automation to fit your needs, such as:
